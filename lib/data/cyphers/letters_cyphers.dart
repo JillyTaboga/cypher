@@ -1,6 +1,32 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+
+List<int> get _randomCypher {
+  List<int> cyphers = [];
+  for (var n = Random().nextInt(30);
+      cyphers.length < 30;
+      n = Random().nextInt(30)) {
+    while (cyphers.contains(n)) {
+      n = Random().nextInt(30);
+    }
+    cyphers.add(n);
+  }
+  return cyphers;
+}
+
+Color get _randomColor {
+  return Color.fromRGBO(
+      Random().nextInt(255), Random().nextInt(255), Random().nextInt(255), 1);
+}
+
 class LetterCypher {
-  LetterCypher.random() : cypher = List<int>.generate(30, (i) => i);
-  const LetterCypher.byCypher(this.cypher);
+  LetterCypher.random()
+      : cypher = _randomCypher,
+        cypherColor = _randomColor;
+  LetterCypher.byCypher(this.cypher, int color) : cypherColor = Color(color);
+
+  Color cypherColor;
 
   static const List<String> _possibleCharacters = [
     "a",
@@ -31,6 +57,8 @@ class LetterCypher {
     "z",
     "-",
     " ",
+    ",",
+    ".",
   ];
 
   List<String> get characters =>
