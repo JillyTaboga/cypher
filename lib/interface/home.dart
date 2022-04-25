@@ -48,114 +48,200 @@ class HomeScreen extends HookConsumerWidget {
     final textCript = ref.watch(cript);
     final mounted = useIsMounted();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            TranslateWidget(
-              bigCollor: bigCollor,
-              text: text,
-              textCript: textCript,
-              smallColor: smallColor,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Expanded(
-              child: CypherDiscs(),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DecriptWidget(
-              textToDecritpEditor: textToDecritpEditor,
-              smallColor: smallColor,
-              text: text,
-              textDecriptedValue: textDecriptedValue,
-              bigCollor: bigCollor,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
+      body: LayoutBuilder(
+        builder: (context, screen) {
+          print(screen);
+          final small = screen.maxWidth < 400 || screen.maxHeight < 700;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    ref.read(smallCypher.notifier).state =
-                        LetterCypher.random();
-                    ref.read(bigCypher.notifier).state = LetterCypher.random();
-                    ref.read(textController.notifier).state = '';
-                    ref.read(textToDecript.notifier).state = '';
-                  },
-                  child: const Text('Reiniciar'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    ref.read(cypherProvider).copy();
-                  },
-                  child: const Text('Copiar Cifra'),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    final clip = await Clipboard.getData('text');
-                    try {
-                      final result = ref.read(cypherProvider).paste(
-                            clip?.text ?? '',
-                          );
-                      ref.read(bigCypher.notifier).state = result.bigCypher;
-                      ref.read(smallCypher.notifier).state = result.smallCypher;
-                      ref.read(smallTurnProvider.notifier).state =
-                          result.smallIndex;
-                      textToDecritpEditor.text = '';
-                    } catch (e) {
-                      if (mounted()) {
-                        // ignore: use_build_context_synchronously
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Dado de cifra incorreto'),
+                if (small) ...[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 30,
                           ),
-                        );
-                      }
-                    }
-                  },
-                  child: const Text('Colar Cifra'),
-                ),
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Disco de cifra'),
-                          content: const Text(
-                            'O disco de cifra foi inventado na idade média, com a utilização de dois discos uma pessoa poderia trocar palavras ou letras por um simbolo em outro disco, dessa forma somente quem tinha os discos e a posição correta seria capaz de compreender a mensagem.\n\nPara testar o método basta copiar a cifra e enviar para uma amigo que a colará, garantindo que os dois estão usando os mesmos discos na mesma posição.',
+                          TranslateWidget(
+                            bigCollor: bigCollor,
+                            text: text,
+                            textCript: textCript,
+                            smallColor: smallColor,
                           ),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Ok'),
-                            ),
-                          ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          DecriptWidget(
+                            textToDecritpEditor: textToDecritpEditor,
+                            smallColor: smallColor,
+                            text: text,
+                            textDecriptedValue: textDecriptedValue,
+                            bigCollor: bigCollor,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+                if (!small) ...[
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TranslateWidget(
+                    bigCollor: bigCollor,
+                    text: text,
+                    textCript: textCript,
+                    smallColor: smallColor,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Expanded(
+                    child: CypherDiscs(),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  DecriptWidget(
+                    textToDecritpEditor: textToDecritpEditor,
+                    smallColor: smallColor,
+                    text: text,
+                    textDecriptedValue: textDecriptedValue,
+                    bigCollor: bigCollor,
+                  ),
+                ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        ref.read(smallCypher.notifier).state =
+                            LetterCypher.random();
+                        ref.read(bigCypher.notifier).state =
+                            LetterCypher.random();
+                        ref.read(textController.notifier).state = '';
+                        ref.read(textToDecript.notifier).state = '';
+                      },
+                      child: const Text('Reiniciar'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        ref.read(cypherProvider).copy();
+                      },
+                      child: const Text('Copiar Cifra'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final clip = await Clipboard.getData('text');
+                        try {
+                          final result = ref.read(cypherProvider).paste(
+                                clip?.text ?? '',
+                              );
+                          ref.read(bigCypher.notifier).state = result.bigCypher;
+                          ref.read(smallCypher.notifier).state =
+                              result.smallCypher;
+                          ref.read(smallTurnProvider.notifier).state =
+                              result.smallIndex;
+                          textToDecritpEditor.text = '';
+                        } catch (e) {
+                          if (mounted()) {
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Dado de cifra incorreto'),
+                              ),
+                            );
+                          }
+                        }
+                      },
+                      child: const Text('Colar Cifra'),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Disco de cifra'),
+                              content: const Text(
+                                'O disco de cifra foi inventado na idade média, com a utilização de dois discos uma pessoa poderia trocar palavras ou letras por um simbolo em outro disco, dessa forma somente quem tinha os discos e a posição correta seria capaz de compreender a mensagem.\n\nPara testar o método basta copiar a cifra e enviar para uma amigo que a colará, garantindo que os dois estão usando os mesmos discos na mesma posição.',
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  icon: const Icon(Icons.info),
+                      icon: const Icon(Icons.info),
+                    ),
+                  ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                if (small) ...[
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: screen.maxHeight - 100,
+                                  width: screen.maxWidth - 20,
+                                  child: const CypherDiscs(),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Fechar'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade400,
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(8),
+                          ),
+                        ),
+                        child: const Text('Discos de Cifra'),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
