@@ -1,16 +1,13 @@
 # cypher
 
-A new Flutter project.
+Discos de cifras foram meios de criptografar mensagens ou parte de mensagens durante a idade média, em que pese seja um sistema antiquado e facilmente decifrável por um computador moderno, partiu desse princípio para um estudo de um único dia.
 
-## Getting Started
+Projeto de estudo feito em um dia, com o objetivo de aprender mais sobre o Riverpod como injetor e controlador de dados bem como sobre Canvaskit.
 
-This project is a starting point for a Flutter application.
+Alguns recursos interessantes utilizados:
+-Alteração da cor das letras pela contraste do fundo
+-Desenho circular de raias pelo CustomPainter
+-Posicionamentos de texto em formato circular pelo Positioned
+-Controle de dados pelo Riverpod, possivelmente os controles de textos poderiam ter sido absorvidos pelo controle de cifra sem problemas
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Seria interessante e fácil de implementar versões de discos com emojis, simbolos ou outros caracteres.

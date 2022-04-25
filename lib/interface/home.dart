@@ -111,6 +111,7 @@ class HomeScreen extends HookConsumerWidget {
                       ref.read(smallCypher.notifier).state = result.smallCypher;
                       ref.read(smallTurnProvider.notifier).state =
                           result.smallIndex;
+                      textToDecritpEditor.text = '';
                     } catch (e) {
                       if (mounted()) {
                         // ignore: use_build_context_synchronously
@@ -199,15 +200,13 @@ class DecriptWidget extends HookConsumerWidget {
             decoration: InputDecoration(
               label: const Text('Texto para Descriptografar'),
               suffixIcon: IconButton(
-                onPressed: text.isEmpty
-                    ? null
-                    : () async {
-                        final value = await Clipboard.getData('text');
-                        if (value?.text != null) {
-                          ref.read(textToDecript.notifier).state = value!.text!;
-                          textToDecritpEditor.text = value.text!;
-                        }
-                      },
+                onPressed: () async {
+                  final value = await Clipboard.getData('text');
+                  if (value?.text != null) {
+                    ref.read(textToDecript.notifier).state = value!.text!;
+                    textToDecritpEditor.text = value.text!;
+                  }
+                },
                 icon: Icon(
                   Icons.paste,
                   color: smallColor,
