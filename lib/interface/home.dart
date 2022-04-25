@@ -48,10 +48,10 @@ class HomeScreen extends HookConsumerWidget {
     final textCript = ref.watch(cript);
     final mounted = useIsMounted();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, screen) {
-          print(screen);
-          final small = screen.maxWidth < 400 || screen.maxHeight < 700;
+          final small = screen.maxWidth < 500 || screen.maxHeight < 700;
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Column(
