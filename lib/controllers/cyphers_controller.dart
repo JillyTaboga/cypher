@@ -63,6 +63,20 @@ class CypherNotifier {
     );
   }
 
+  String decript(String decript) {
+    final smallChar = smallCypher.characters.firstWhere(
+      (element) => element == decript.toLowerCase().removeDiatrics(),
+      orElse: () => '%',
+    );
+    if (smallChar == '%') return '%';
+    final int nomalSmallIndex =
+        smallIndex <= 30 ? smallIndex : smallIndex - ((smallIndex ~/ 30) * 30);
+    int bigIndex =
+        smallCypher.characters.indexOf(smallChar) + (nomalSmallIndex);
+    if (bigIndex >= 30) bigIndex -= 30;
+    return bigCypher.characters[bigIndex];
+  }
+
   String translate(String input) {
     final bigChar = bigCypher.characters.firstWhere(
       (element) => element == input.toLowerCase().removeDiatrics(),
